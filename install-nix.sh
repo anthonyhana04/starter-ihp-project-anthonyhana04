@@ -12,6 +12,11 @@ mkdir -p ~/.config/direnv; touch ~/.config/direnv/direnv.toml; echo -e "[whiteli
 mkdir -p ~/.config/nix/; touch ~/.config/nix/nix.conf; echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
 echo "trusted-users = root vscode" | sudo tee -a /etc/nix/nix.conf && sudo pkill nix-daemon; cachix use cachix; cachix use digitallyinduced;
 
+
+if [ -w /etc/nix/nix.conf ]; then
+  echo "download-buffer-size = 10485760" | sudo tee -a /etc/nix/nix.conf
+fi
+
 sh ./usr/local/share/nix-entrypoint.sh; ( if [ ! -e "Main.hs" ]; then rm -rf /tmp/ihp-boilerplate; git clone https://github.com/digitallyinduced/ihp-boilerplate.git /tmp/ihp-boilerplate; rm -rf /tmp/ihp-boilerplate/.git; cp -r /tmp/ihp-boilerplate/. .; fi) && git add . && nix develop --accept-flake-config --impure --command make -s all;
 
 
