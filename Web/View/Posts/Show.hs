@@ -7,10 +7,10 @@ instance View ShowView where
     html ShowView { .. } = [hsx|
         {breadcrumb}
         <h1>{post.title}</h1>
+        <p>{post.createdAt |> timeAgo}</p>
         <div>{post.body}</div>
-        <p>{post}</p>
-
     |]
+
         where
             breadcrumb = renderBreadcrumb
                             [ breadcrumbLink "Posts" PostsAction
